@@ -1,0 +1,1029 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineGen.ai — AI Cinematic Recap Generator</title>
+  <meta name="description"
+    content="Transform any movie synopsis into a fully structured cinematic recap with AI-generated scripts, storyboards, and shot lists.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">
+      🎬 <span class="logo-text">CineGen</span><span class="logo-badge">AI</span>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="toggleSettings()" title="API Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+          </path>
+        </svg>
+      </button>
+      <div class="user-avatar" style="margin-left:8px">DG</div>
+    </div>
+  </header>
+  <nav class="nav-links">
+    <span class="nav-link active">Studio</span>
+    <span class="nav-link">History</span>
+    <span class="nav-link">Templates</span>
+    <span class="nav-link">Pricing</span>
+  </nav>
+  <div class="nav-right">
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      AI Engine v4.2 Online
+    </div>
+    <div class="avatar">👤</div>
+  </div>
+
+  <div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">⚡ AI Cinematic Pipeline Active</div>
+      <h1 class="hero-title">
+        <span>AI Cinematic Recap</span>
+        <span class="hero-title-purple">Generator</span>
+      </h1>
+      <p class="hero-sub">Transform any story into a compelling 3–5 minute cinematic video recap. Scene extraction,
+        scriptwriting, storyboarding, and shot planning — all in one pipeline.</p>
+    </div>
+
+    <!-- INPUT CARD -->
+    <div class="input-card">
+      <div class="input-tabs">
+        <button class="tab-btn active" id="tab-btn-synopsis" onclick="switchTab('synopsis',this)">📝 Synopsis</button>
+        <button class="tab-btn" id="tab-btn-youtube" onclick="switchTab('youtube',this)">🎬 YouTube Link</button>
+      </div>
+
+      <!-- SYNOPSIS TAB -->
+      <div id="tab-synopsis">
+        <div class="input-row">
+          <div class="input-group">
+            <label>Movie Title <span style="color:var(--text3);font-size:.7rem">(or leave blank to
+                auto-detect)</span></label>
+            <input type="text" id="title1" placeholder="e.g. Inception, Interstellar…">
+          </div>
+          <div class="input-group">
+            <label>Second Movie <span style="color:var(--text3);font-size:.7rem">(OPTIONAL mashup)</span></label>
+            <input type="text" id="title2" placeholder="e.g. sequel or related film…">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Movie Synopsis</label>
+            <div class="input-textarea-wrap">
+              <textarea id="synopsis1"
+                placeholder="Paste your movie synopsis here. The AI will extract scenes, write the narration script, plan the storyboard, and build the shot list automatically."></textarea>
+              <div class="input-textarea-icons">
+                <div class="input-icon-btn" title="Voice input" id="mic-btn" onclick="startVoiceInput()">🎤</div>
+                <div class="input-icon-btn" title="Attach file"
+                  onclick="document.getElementById('file-attach-input').click()">📎</div>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Second Synopsis <span style="color:var(--text3);font-size:.7rem">(OPTIONAL)</span></label>
+            <textarea id="synopsis2" placeholder="Paste a second synopsis for double-feature / mashup mode…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- YOUTUBE TAB -->
+      <div id="tab-youtube" style="display:none">
+        <div class="input-row">
+          <div class="input-group">
+            <label>Movie Title <span style="color:var(--text3);font-size:.7rem">(auto-detected)</span></label>
+            <input type="text" id="yttitle1" placeholder="Leave blank to auto-detect from video title…">
+          </div>
+          <div class="input-group">
+            <label>Second Title <span style="color:var(--text3);font-size:.7rem">(OPTIONAL)</span></label>
+            <input type="text" id="yttitle2" placeholder="Leave blank to auto-detect…">
+          </div>
+        </div>
+        <div class="yt-input-row">
+          <span class="yt-icon">▶</span>
+          <input type="text" id="ytlink1" placeholder="Paste YouTube trailer / recap link for Film 1"
+            oninput="_ytDebounce(this, 1)" onchange="_ytDebounce(this, 1)"
+            onpaste="setTimeout(()=>_ytDebounce(this,1),50)">
+          <button class="yt-load-btn" onclick="fetchYouTubeData(document.getElementById('ytlink1'),1)"
+            title="Load video info">↵ Load</button>
+        </div>
+        <div id="yt-preview-1"></div>
+        <div class="yt-input-row">
+          <span class="yt-icon">▶</span>
+          <input type="text" id="ytlink2" placeholder="Optional: paste YouTube link for Film 2"
+            oninput="_ytDebounce(this, 2)" onchange="_ytDebounce(this, 2)"
+            onpaste="setTimeout(()=>_ytDebounce(this,2),50)">
+          <button class="yt-load-btn" onclick="fetchYouTubeData(document.getElementById('ytlink2'),2)"
+            title="Load video info">↵ Load</button>
+        </div>
+        <div id="yt-preview-2"></div>
+      </div>
+
+      <div class="input-actions">
+        <button class="demo-link" onclick="loadDemo()">⚡ Try Demo Mode</button>
+        <div class="input-meta">
+          <span>Est. time: ~2 min</span>
+          <span>Cost: 5 credits</span>
+        </div>
+        <button class="btn btn-primary" id="generate-btn" onclick="runStage1()">
+          <span>✦</span> Generate Recap
+        </button>
+      </div>
+      <div class="loading" id="loading-1">
+        <div class="spinner"></div>Detecting movie title &amp; extracting scenes…
+      </div>
+    </div>
+
+    <!-- PIPELINE TRACKER -->
+    <div class="pipeline-wrapper">
+      <div class="pipeline-track">
+        <div class="pipe-node active" id="node-input">
+          <div class="pipe-icon">📝</div>
+          <div class="pipe-label">Input</div>
+        </div>
+        <div class="pipe-arrow">——</div>
+        <div class="pipe-node" id="node-fs">
+          <div class="pipe-icon">📁</div>
+          <div class="pipe-label">Files</div>
+        </div>
+        <div class="pipe-arrow">——</div>
+        <div class="pipe-node" id="node-1">
+          <div class="pipe-icon">🎭</div>
+          <div class="pipe-label">Scenes</div>
+        </div>
+        <div class="pipe-arrow">——</div>
+        <div class="pipe-node" id="node-2">
+          <div class="pipe-icon">✍️</div>
+          <div class="pipe-label">Script</div>
+        </div>
+        <div class="pipe-arrow">——</div>
+        <div class="pipe-node" id="node-3">
+          <div class="pipe-icon">🖼</div>
+          <div class="pipe-label">Storyboard</div>
+        </div>
+        <div class="pipe-arrow">——</div>
+        <div class="pipe-node" id="node-4">
+          <div class="pipe-icon">🎬</div>
+          <div class="pipe-label">Video Plan</div>
+        </div>
+        <div class="pipe-arrow">——</div>
+        <div class="pipe-node" id="node-final">
+          <div class="pipe-icon">✓</div>
+          <div class="pipe-label">Export</div>
+        </div>
+      </div>
+    </div>
+    <div id="movie-name-badge"></div>
+
+    <!-- STAGE: FILE SYSTEM -->
+    <div class="output-panel" id="output-fs">
+      <div class="section s-fs">
+        <div class="section-header">
+          <div class="stage-tag">FILE SYSTEM</div>
+          <div class="section-title" id="fs-section-title">OUTPUT DIRECTORY INITIALIZED</div>
+        </div>
+        <p style="font-size:.8rem;color:var(--text2);margin-bottom:1rem">
+          All pipeline outputs are dynamically named under
+          <code
+            style="color:#22d3ee;background:var(--bg2);padding:1px 6px;border-radius:4px">outputs/<span id="fs-slug-inline">movie_name</span>/</code>.
+          Files marked <span style="color:var(--green)">●</span> are ready to download.
+        </p>
+        <div id="multi-movie-bar" style="display:none;margin-bottom:.75rem">
+          <p
+            style="font-size:.58rem;color:var(--text2);letter-spacing:1px;margin-bottom:.4rem;text-transform:uppercase">
+            Session Movies:</p>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap" id="movie-chips"></div>
+        </div>
+        <div class="fs-panel" id="fs-tree"></div>
+      </div>
+    </div>
+
+    <!-- STAGE 1: SCENE EXTRACTION -->
+    <div class="output-panel" id="output-1">
+      <div class="section">
+        <div class="section-header">
+          <div class="stage-tag">STAGE 1</div>
+          <div class="section-title" id="s1-title">SCENE EXTRACTION</div>
+        </div>
+        <div class="stats-row" id="stats-1"></div>
+        <div class="scene-grid" id="scenes-output"></div>
+        <div class="btn-row">
+          <button class="btn btn-s2" onclick="runStage2()">✍️ Generate Script — Stage 2</button>
+        </div>
+        <div class="loading" id="loading-2">
+          <div class="spinner" style="border-top-color:var(--accent2)"></div>Generating cinematic narration script…
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 2: SCRIPT -->
+    <div class="output-panel" id="output-2">
+      <div class="section s2">
+        <div class="section-header">
+          <div class="stage-tag">STAGE 2</div>
+          <div class="section-title" id="s2-title">GENERATED SCRIPT</div>
+        </div>
+        <div class="stats-row" id="stats-2"></div>
+        <div class="script-output-card">
+          <div class="script-output-header">
+            <div class="script-output-title">📄 Narration Script</div>
+            <div class="script-output-actions">
+              <button class="script-action-btn" onclick="copyScript()">📋 Copy</button>
+              <button class="script-action-btn" onclick="exportScript()">⬇ Download</button>
+              <button class="script-action-btn" id="edit-script-btn" onclick="editScript()">✏️ Edit</button>
+            </div>
+          </div>
+          <div class="script-output-body" id="script-output"></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-s3" onclick="runStage3()">🖼 Generate Storyboard — Stage 3</button>
+        </div>
+        <div class="loading" id="loading-3">
+          <div class="spinner" style="border-top-color:#10b981"></div>Building visual storyboard panels…
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 3: STORYBOARD -->
+    <div class="output-panel" id="output-3">
+      <div class="section s3">
+        <div class="section-header">
+          <div class="stage-tag">STAGE 3</div>
+          <div class="section-title" id="s3-title">VISUAL STORYBOARD</div>
+        </div>
+        <div class="filmstrip-row" id="filmstrip-row"></div>
+
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+          <div class="sb-tabs">
+            <button class="sb-tab active" onclick="switchSbTab('panels',this)">🖼 Panel Preview</button>
+            <button class="sb-tab" onclick="switchSbTab('drawstory',this)">✏️ DrawStory.ai</button>
+            <button class="sb-tab" onclick="switchSbTab('aiprompts',this)">🤖 AI Prompts</button>
+          </div>
+        </div>
+
+        <div id="sb-tab-panels">
+          <div class="storyboard-grid" id="storyboard-output"></div>
+        </div>
+
+        <div id="sb-tab-drawstory" style="display:none">
+          <div class="ds-panel">
+            <div class="ds-intro">
+              <div class="ds-logo-box">
+                <div class="ds-logo-text">DRAW<br>STORY</div>
+                <div class="ds-logo-sub">.AI</div>
+              </div>
+              <div class="ds-intro-text">
+                <strong>DrawStory.ai has no public API.</strong> Paste these pre-formatted prompts directly into
+                DrawStory.ai's scene editor to generate storyboard frames instantly. Each entry includes camera angle,
+                mood, visual style, and narration context.
+              </div>
+            </div>
+            <div class="ds-steps">
+              <div class="ds-step">
+                <div class="ds-step-num">1</div>
+                <div class="ds-step-label">Click <strong>"Open DrawStory.ai"</strong> below to launch the tool</div>
+              </div>
+              <div class="ds-step">
+                <div class="ds-step-num">2</div>
+                <div class="ds-step-label">Create a new project and click <strong>"Add Scene"</strong></div>
+              </div>
+              <div class="ds-step">
+                <div class="ds-step-num">3</div>
+                <div class="ds-step-label">Copy each prompt below and paste into the scene description field</div>
+              </div>
+            </div>
+            <div class="ds-scene-list" id="ds-scene-list">
+              <p style="font-size:.65rem;color:var(--text2);text-align:center;padding:2rem">Run Stage 1 + Stage 2 first
+                to generate scene prompts.</p>
+            </div>
+            <div class="ds-export-bar">
+              <a class="ds-open-btn" href="https://drawstory.ai" target="_blank">✏️ OPEN DRAWSTORY.AI →</a>
+              <button class="btn btn-ghost" onclick="exportDrawStoryTxt()">⬇ Download All Prompts (.txt)</button>
+              <button class="btn btn-ghost" onclick="copyAllDrawStoryPrompts()">📋 Copy All</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="sb-tab-aiprompts" style="display:none">
+          <div class="aip-header">
+            <span style="font-size:.7rem;color:var(--text2);letter-spacing:1px">POWERED BY</span>
+            <span class="aip-model-badge">Claude / GPT API</span>
+            <span style="font-size:.65rem;color:var(--text2)">→ Midjourney · DALL-E 3 · Stable Diffusion</span>
+          </div>
+          <button class="aip-generate-btn" id="aip-gen-btn" onclick="generateAIImagePrompts()">
+            ⚡ GENERATE AI IMAGE PROMPTS FROM SCRIPT
+          </button>
+          <div class="aip-loading" id="aip-loading">
+            <div class="aip-spinner"></div>
+            Analyzing script and generating image prompts…
+          </div>
+          <div class="aip-grid" id="aip-grid">
+            <p style="font-size:.65rem;color:var(--text2);text-align:center;padding:1.5rem">Click the button above to
+              generate AI image prompts for all panels.</p>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:1.25rem">
+          <button class="btn btn-s4" onclick="runStage4()">🎬 Generate Video Plan — Stage 4</button>
+        </div>
+        <div class="loading" id="loading-4">
+          <div class="spinner" style="border-top-color:var(--amber)"></div>Building shot-by-shot video production plan…
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 4: VIDEO PLAN -->
+    <div class="output-panel" id="output-4">
+      <div class="section s4">
+        <div class="section-header">
+          <div class="stage-tag">STAGE 4</div>
+          <div class="section-title" id="s4-title">VIDEO PRODUCTION PLAN</div>
+        </div>
+        <div class="stats-row" id="stats-4"></div>
+        <div class="shot-list" id="shots-output"></div>
+        <div class="timeline-bar">
+          <div class="timeline-label">RUNTIME BREAKDOWN</div>
+          <div class="timeline-track">
+            <div class="timeline-seg tl-f1" id="tl-label-1">FILM 1</div>
+            <div class="timeline-seg tl-bridge">↔</div>
+            <div class="timeline-seg tl-f2" id="tl-label-2">FILM 2</div>
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:1.5rem">
+          <button class="btn btn-green" onclick="showExport()">✦ Finalize &amp; Export Recap</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORT PANEL -->
+    <div class="output-panel" id="output-final">
+      <div class="section s-final">
+        <div class="section-header">
+          <div class="stage-tag">COMPLETE</div>
+          <div class="section-title">Pipeline Complete</div>
+        </div>
+
+        <!-- Video Player Mockup -->
+        <div class="video-player-section">
+          <div class="video-player-header">
+            <div class="video-player-title">
+              <div class="video-live-dot"></div>
+              <span id="export-title-label" style="font-family:monospace">Final_Recap_v1.mp4</span>
+            </div>
+            <button class="script-action-btn" id="fullscreen-btn" onclick="toggleFullscreen()">⤢ Fullscreen</button>
+          </div>
+          <div class="video-player-body">
+            <div class="video-bg-art">🎬</div>
+            <div
+              style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(124,58,237,.15),transparent 60%)">
+            </div>
+            <div class="video-play-btn" id="video-play-area"
+              onclick="toggleVideoPlay(document.querySelector('.video-ctrl-btn'))"></div>
+          </div>
+          <div class="video-controls">
+            <div class="video-progress-bar" id="video-progress-bar" onclick="seekVideo(event)" style="cursor:pointer">
+              <div class="video-progress-fill" id="video-fill"></div>
+            </div>
+            <div class="video-controls-row">
+              <div class="video-ctrl-left">
+                <button class="video-ctrl-btn" id="play-btn" onclick="toggleVideoPlay(this)">▶</button>
+                <button class="video-ctrl-btn" onclick="resetVideo()">⏮</button>
+                <button class="video-ctrl-btn" onclick="skipToEnd()">⏭</button>
+                <div style="display:flex;align-items:center;gap:.5rem">
+                  <button class="video-ctrl-btn" id="vol-btn" onclick="toggleMute(this)">🔊</button>
+                  <div class="volume-bar" id="volume-bar" onclick="setVolume(event)">
+                    <div class="volume-fill" id="volume-fill" style="width:70%"></div>
+                  </div>
+                </div>
+                <span class="video-time" id="video-time">00:00 / 04:50</span>
+              </div>
+              <div class="video-ctrl-right">
+                <button class="video-action-btn btn-regenerate" onclick="showExport()">↺ Regenerate</button>
+                <button class="video-action-btn btn-download-video" onclick="exportFullBundle()">⬇ Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.8;margin-bottom:1.25rem">
+          Your cinematic recap for <strong id="export-title-label-2" style="color:var(--accent-light)">your
+            film</strong> is ready. Download the full production package below.
+        </p>
+
+        <div class="export-grid">
+          <div class="export-card" onclick="exportScript()">
+            <div class="export-icon">📄</div>
+            <div class="export-title">Recap Script</div>
+            <div class="export-filename" id="ex-script-name">—</div>
+            <div class="export-desc">Full narration script with timestamps and voiceover lines</div>
+          </div>
+          <div class="export-card" onclick="exportStoryboard()">
+            <div class="export-icon">🖼</div>
+            <div class="export-title">Storyboard Pack</div>
+            <div class="export-filename" id="ex-storyboard-name">—</div>
+            <div class="export-desc">All panels with camera notes and animation triggers</div>
+          </div>
+          <div class="export-card" onclick="exportShotList()">
+            <div class="export-icon">🎬</div>
+            <div class="export-title">Shot List JSON</div>
+            <div class="export-filename" id="ex-shotlist-name">—</div>
+            <div class="export-desc">Machine-readable shot list for Runway, Kling, or any AI video tool</div>
+          </div>
+          <div class="export-card" onclick="exportScenes()">
+            <div class="export-icon">🎞</div>
+            <div class="export-title">Scene List JSON</div>
+            <div class="export-filename" id="ex-scenes-name">—</div>
+            <div class="export-desc">Structured scene data with tone and animation tags</div>
+          </div>
+          <div class="export-card" onclick="exportFullBundle()">
+            <div class="export-icon">📦</div>
+            <div class="export-title">Full Bundle</div>
+            <div class="export-filename" id="ex-bundle-name">—</div>
+            <div class="export-desc">All pipeline stages in one complete JSON bundle</div>
+          </div>
+          <div class="export-card" onclick="exportSynopsis()">
+            <div class="export-icon">📝</div>
+            <div class="export-title">Input Synopsis</div>
+            <div class="export-filename" id="ex-synopsis-name">—</div>
+            <div class="export-desc">Raw input synopsis saved as plain text</div>
+          </div>
+        </div>
+
+        <div class="btn-row" style="justify-content:center;margin-top:1.5rem">
+          <button class="btn btn-ghost" onclick="resetPipeline()">🔄 Start New Project</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- FOOTER -->
+  <footer class="footer" style="flex-direction:column;gap:1.5rem;padding:2rem 2.5rem 1.5rem">
+
+    <!-- Top row: brand + social -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div style="display:flex;flex-direction:column;gap:.3rem">
+        <div class="logo" style="font-size:1rem">🎬 <span class="logo-text">CineGen</span><span
+            class="logo-badge">AI</span></div>
+        <div style="font-size:.65rem;color:var(--text3)">AI Cinematic Recap Generator · v1.0.0</div>
+      </div>
+      <div style="display:flex;gap:.6rem">
+        <a class="social-btn" title="Share on X"
+          onclick="window.open('https://twitter.com/intent/tweet?text=Check+out+CineGen.ai+%E2%80%93+AI+cinematic+recap+generator!&url=https://cinegen.ai','_blank')"
+          style="cursor:pointer;text-decoration:none">𝕏</a>
+        <a class="social-btn" title="Threads" onclick="window.open('https://www.threads.net','_blank')"
+          style="cursor:pointer;text-decoration:none">⌥</a>
+        <a class="social-btn" title="Instagram" onclick="window.open('https://www.instagram.com','_blank')"
+          style="cursor:pointer;text-decoration:none">◉</a>
+        <a class="social-btn" title="YouTube" onclick="window.open('https://www.youtube.com','_blank')"
+          style="cursor:pointer;text-decoration:none">▶</a>
+      </div>
+    </div>
+
+    <!-- Middle row: nav links + newsletter -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
+      <!-- Footer nav groups -->
+      <div style="display:flex;gap:2.5rem;flex-wrap:wrap">
+        <div>
+          <div
+            style="font-size:.6rem;letter-spacing:1.5px;color:var(--text3);margin-bottom:.5rem;text-transform:uppercase">
+            Product</div>
+          <a class="footer-link" onclick="toast('🚧 Features — Coming soon!')">Features</a>
+          <a class="footer-link" onclick="toast('🚧 Pricing — Coming soon!')">Pricing</a>
+          <a class="footer-link" onclick="toast('🚧 API Access — Coming soon!')">API Access</a>
+          <a class="footer-link" onclick="toast('🚧 Showcase — Coming soon!')">Showcase</a>
+        </div>
+        <div>
+          <div
+            style="font-size:.6rem;letter-spacing:1.5px;color:var(--text3);margin-bottom:.5rem;text-transform:uppercase">
+            Resources</div>
+          <a class="footer-link" onclick="toast('🚧 Documentation — Coming soon!')">Documentation</a>
+          <a class="footer-link" onclick="toast('🚧 Community — Coming soon!')">Community</a>
+          <a class="footer-link" onclick="toast('🚧 Help Center — Coming soon!')">Help Center</a>
+          <a class="footer-link" onclick="toast('🚧 Blog — Coming soon!')">Blog</a>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div style="display:flex;flex-direction:column;gap:.5rem;min-width:220px">
+        <div style="font-size:.6rem;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase">Stay Updated</div>
+        <div style="font-size:.7rem;color:var(--text2)">Get AI filmmaking tips in your inbox.</div>
+        <div style="display:flex;gap:.4rem">
+          <input type="email" class="newsletter-input" id="newsletter-email" placeholder="your@email.com"
+            style="flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.4rem .6rem;color:var(--text);font-size:.7rem;outline:none"
+            onkeydown="if(event.key==='Enter') submitNewsletter()">
+          <button class="newsletter-submit" onclick="submitNewsletter()"
+            style="background:var(--accent);border:none;border-radius:6px;color:#fff;padding:.4rem .75rem;font-size:.75rem;cursor:pointer;transition:background .2s"
+            onmouseover="this.style.background='var(--accent-light)'"
+            onmouseout="this.style.background='var(--accent)'">→</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom row: legal -->
+    <div
+      style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-top:1px solid var(--border);padding-top:1rem">
+      <div style="font-size:.6rem;color:var(--text3)">© 2025 CineGen.ai — All rights reserved.</div>
+      <div style="display:flex;gap:1rem">
+        <a class="footer-legal-link" onclick="toast('🚧 Privacy Policy — Coming soon!')"
+          style="cursor:pointer;font-size:.6rem;color:var(--text3);text-decoration:none">Privacy Policy</a>
+        <a class="footer-legal-link" onclick="toast('🚧 Terms of Service — Coming soon!')"
+          style="cursor:pointer;font-size:.6rem;color:var(--text3);text-decoration:none">Terms of Service</a>
+        <a class="footer-legal-link" onclick="toast('🚧 Cookie Settings — Coming soon!')"
+          style="cursor:pointer;font-size:.6rem;color:var(--text3);text-decoration:none">Cookie Settings</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Settings Drawer -->
+  <div id="settings-drawer"
+    style="position:fixed; top:0; right:-320px; width:320px; height:100vh; background:var(--bg2); border-left:1px solid var(--border); box-shadow:-8px 0 32px rgba(0,0,0,0.5); z-index:9999; transition:right 0.3s ease; display:flex; flex-direction:column; padding:1.5rem;">
+    <div
+      style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border);">
+      <h3 style="margin:0; font-size:1.1rem;">API Settings</h3>
+      <button class="btn btn-secondary" onclick="toggleSettings()" style="padding:4px 8px;">✕</button>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+      <label class="form-label">Anthropic API Key (Optional)</label>
+      <input type="password" id="api-key-input" class="form-input" placeholder="sk-ant-api03-...">
+      <div class="help-text" style="font-size:0.75rem; color:var(--text3); margin-top:0.4rem;">
+        If empty, the pipeline will use high-quality local demo data (instant results). Keys are saved only in this
+        browser session.
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+      <label class="form-label">Claude Model</label>
+      <select id="api-model-input" class="form-select flex-input" style="width:100%;">
+        <option value="claude-3-7-sonnet-20250219">Claude 3.7 Sonnet (Best)</option>
+        <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+        <option value="claude-3-5-haiku-20241022">Claude 3.5 Haiku (Fastest)</option>
+      </select>
+    </div>
+
+    <div style="margin-top:auto">
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveSettings()">Save
+        Settings</button>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function toggleSettings() {
+      const drawer = document.getElementById('settings-drawer');
+      if (drawer.style.right === '0px') {
+        drawer.style.right = '-320px';
+      } else {
+        drawer.style.right = '0px';
+        document.getElementById('api-key-input').value = sessionStorage.getItem('cinegen_api_key') || '';
+        document.getElementById('api-model-input').value = sessionStorage.getItem('cinegen_model') || 'claude-3-7-sonnet-20250219';
+      }
+    }
+
+    function saveSettings() {
+      const key = document.getElementById('api-key-input').value.trim();
+      const model = document.getElementById('api-model-input').value;
+      if (key) sessionStorage.setItem('cinegen_api_key', key);
+      else sessionStorage.removeItem('cinegen_api_key');
+      sessionStorage.setItem('cinegen_model', model);
+      toggleSettings();
+      toast('✓ Settings saved to session');
+    }
+
+    // ── Voice Input ────────────────────────────────────────────────
+    function startVoiceInput() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) { toast('⚠️ Voice input not supported in this browser.'); return; }
+      const btn = document.getElementById('mic-btn');
+      const recognition = new SR();
+      recognition.lang = 'en-US'; recognition.interimResults = false; recognition.maxAlternatives = 1;
+      btn.textContent = '🔴'; btn.title = 'Listening…';
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        const ta = document.getElementById('synopsis1');
+        ta.value = (ta.value ? ta.value + ' ' : '') + text;
+        btn.textContent = '🎤'; btn.title = 'Voice input';
+        toast('🎤 Voice captured!');
+      };
+      recognition.onerror = () => { btn.textContent = '🎤'; btn.title = 'Voice input'; toast('⚠️ Voice recognition error.'); };
+      recognition.onend = () => { btn.textContent = '🎤'; btn.title = 'Voice input'; };
+      recognition.start();
+    }
+
+    // ── Copy Script ────────────────────────────────────────────────
+    function copyScript() {
+      const text = typeof SCRIPT_DATA !== 'undefined' ? SCRIPT_DATA.map((s, i) => `[${s.time || i}] ${s.narration || s.text || ''}`).join('\n') : document.getElementById('script-output').innerText;
+      navigator.clipboard.writeText(text).then(() => toast('📋 Script copied to clipboard!'));
+    }
+
+    // ── Edit Script ────────────────────────────────────────────────
+    let _scriptEditMode = false;
+    function editScript() {
+      const btn = document.getElementById('edit-script-btn');
+      const body = document.getElementById('script-output');
+      if (!_scriptEditMode) {
+        _scriptEditMode = true;
+        const currentText = body.innerText;
+        body.innerHTML = `<textarea id="script-edit-ta" style="width:100%;min-height:320px;background:var(--bg2);color:var(--text);border:1px solid var(--accent);border-radius:6px;padding:.75rem;font-family:monospace;font-size:.75rem;resize:vertical;line-height:1.7">${currentText}</textarea>`;
+        btn.textContent = '✅ Save'; btn.title = 'Save edits';
+        toast('✏️ Script is now editable');
+      } else {
+        _scriptEditMode = false;
+        const edited = document.getElementById('script-edit-ta').value;
+        const lines = edited.split('\n').filter(l => l.trim());
+        if (typeof SCRIPT_DATA !== 'undefined') {
+          SCRIPT_DATA = lines.map((l, i) => { const m = l.match(/^\[(.+?)\]\s*(.+)$/); return m ? { time: m[1], narration: m[2] } : { time: `${i}:00`, narration: l }; });
+        }
+        body.innerHTML = lines.map((l, i) => {
+          const m = l.match(/^\[(.+?)\]\s*(.+)$/);
+          return m ? `<div class="script-line"><span class="script-ts">${m[1]}</span><span class="script-nar">${m[2]}</span></div>` : `<div class="script-line"><span class="script-nar">${l}</span></div>`;
+        }).join('');
+        btn.textContent = '✏️ Edit'; btn.title = 'Edit script';
+        toast('✅ Script saved!');
+      }
+    }
+
+    // ── Fullscreen ─────────────────────────────────────────────────
+    function toggleFullscreen() {
+      const el = document.querySelector('.video-player-section');
+      const btn = document.getElementById('fullscreen-btn');
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        const req = el.requestFullscreen || el.webkitRequestFullscreen;
+        req.call(el).catch(() => toast('⚠️ Fullscreen not available'));
+        btn.textContent = '⤡ Exit Full';
+      } else {
+        const ex = document.exitFullscreen || document.webkitExitFullscreen;
+        ex.call(document);
+        btn.textContent = '⤢ Fullscreen';
+      }
+    }
+
+    // ── Video Simulate Playback ────────────────────────────────────
+    let _videoInterval = null;
+    let _videoSeconds = 0;
+    const _videoDuration = 290; // 4:50
+    function _fmtTime(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+    function toggleVideoPlay(btn) {
+      const playBtn = document.getElementById('play-btn') || btn;
+      if (_videoInterval) {
+        clearInterval(_videoInterval); _videoInterval = null;
+        playBtn.textContent = '▶'; toast('⏸ Paused');
+      } else {
+        if (_videoSeconds >= _videoDuration) _videoSeconds = 0;
+        _videoInterval = setInterval(() => {
+          document.getElementById('video-fill').style.width = (_videoSeconds / _videoDuration * 100) + '%';
+          document.getElementById('video-time').textContent = _fmtTime(_videoSeconds) + ' / ' + _fmtTime(_videoDuration);
+          if (_videoSeconds >= _videoDuration) { clearInterval(_videoInterval); _videoInterval = null; playBtn.textContent = '▶'; }
+        }, 1000);
+        playBtn.textContent = '⏸'; toast('▶ Playing…');
+      }
+    }
+    function resetVideo() {
+      if (_videoInterval) { clearInterval(_videoInterval); _videoInterval = null; }
+      _videoSeconds = 0;
+      document.getElementById('video-fill').style.width = '0%';
+      document.getElementById('video-time').textContent = '00:00 / ' + _fmtTime(_videoDuration);
+      document.getElementById('play-btn').textContent = '▶';
+      toast('⏮ Reset to start');
+    }
+    function skipToEnd() {
+      if (_videoInterval) { clearInterval(_videoInterval); _videoInterval = null; }
+      _videoSeconds = _videoDuration - 6;
+      document.getElementById('video-fill').style.width = Math.round(_videoSeconds / _videoDuration * 100) + '%';
+      document.getElementById('video-time').textContent = _fmtTime(_videoSeconds) + ' / ' + _fmtTime(_videoDuration);
+      document.getElementById('play-btn').textContent = '▶';
+      toast('⏭ Jumped to near end');
+    }
+
+    // ── Volume toggle + click-to-set ────────────────────────────────
+    let _muted = false;
+    function toggleMute(btn) {
+      _muted = !_muted;
+      btn.textContent = _muted ? '🔇' : '🔊';
+      document.getElementById('volume-fill').style.width = _muted ? '0%' : '70%';
+      toast(_muted ? '🔇 Muted' : '🔊 Unmuted');
+    }
+    function setVolume(e) {
+      const bar = document.getElementById('volume-bar');
+      const rect = bar.getBoundingClientRect();
+      const pct = Math.min(100, Math.max(0, Math.round((e.clientX - rect.left) / rect.width * 100)));
+      document.getElementById('volume-fill').style.width = pct + '%';
+      _muted = pct === 0;
+      document.getElementById('vol-btn').textContent = _muted ? '🔇' : '🔊';
+    }
+
+    // ── Seek video by clicking progress bar ──────────────────────────
+    function seekVideo(e) {
+      const bar = document.getElementById('video-progress-bar');
+      const rect = bar.getBoundingClientRect();
+      const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+      _videoSeconds = Math.floor(frac * _videoDuration);
+      document.getElementById('video-fill').style.width = (frac * 100) + '%';
+      document.getElementById('video-time').textContent = _fmtTime(_videoSeconds) + ' / ' + _fmtTime(_videoDuration);
+    }
+
+    // ── File attach → read into synopsis ────────────────────────────
+    function handleFileAttach(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('synopsis1').value = e.target.result;
+        toast(`📎 "${file.name}" loaded into synopsis`);
+      };
+      reader.onerror = () => toast('⚠️ Could not read file.');
+      reader.readAsText(file);
+      event.target.value = ''; // reset so same file can be re-selected
+    }
+
+    // ── Newsletter submit ────────────────────────────────────────────
+    function submitNewsletter() {
+      const input = document.getElementById('newsletter-email');
+      const email = (input && input.value || '').trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (valid) {
+        toast('✅ Subscribed! Welcome to CineGen.ai');
+        if (input) input.value = '';
+      } else {
+        toast('⚠️ Please enter a valid email.');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // YOUTUBE TAB — Fetch metadata + preview card
+    // ══════════════════════════════════════════════════════════════
+    window.YT_META = {};
+    const _ytTimers = {};
+
+    function _ytDebounce(inputEl, num) {
+      clearTimeout(_ytTimers[num]);
+      const val = inputEl.value.trim();
+      if (!val) {
+        document.getElementById(`yt-preview-${num}`).innerHTML = '';
+        if (num === 1) window.YT_META = {};
+        return;
+      }
+      _ytTimers[num] = setTimeout(() => fetchYouTubeData(inputEl, num), 600);
+    }
+
+    async function fetchYouTubeData(inputEl, num) {
+      const url = inputEl.value.trim();
+      const previewEl = document.getElementById(`yt-preview-${num}`);
+
+      // Extract video ID from any YouTube URL format
+      const match = url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+      if (!match) {
+        previewEl.innerHTML = `<div class="yt-error-hint">⚠️ Not a valid YouTube URL</div>`;
+        return;
+      }
+      const videoId = match[1];
+
+      // Show loading state
+      previewEl.innerHTML = `<div class="yt-loading-hint"><div class="aip-spinner" style="width:14px;height:14px;border-width:2px"></div> Fetching video data…</div>`;
+      inputEl.style.opacity = '0.6';
+
+      try {
+        // Use our server proxy to avoid CORS issues
+        const res = await fetch(`/api/yt-meta?videoId=${videoId}`);
+        const data = await res.json();
+
+        inputEl.style.opacity = '1';
+
+        if (!data || !data.ok) {
+          previewEl.innerHTML = `<div class="yt-error-hint">⚠️ Could not fetch video info. Check the URL.</div>`;
+          return;
+        }
+
+        const title = data.title || `YouTube Video (${videoId})`;
+        const channelName = data.channelName || 'Unknown channel';
+        const thumbnail = data.thumbnail || `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+        const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        const cleanedTitle = typeof cleanTitle === 'function' ? cleanTitle(title) : title;
+
+        // Store metadata globally
+        const meta = { title, cleanedTitle, channelName, thumbnail, videoId, url: videoUrl };
+        if (num === 1) {
+          window.YT_META = meta;
+          const titleInput = document.getElementById('yttitle1');
+          if (titleInput && !titleInput.value.trim()) {
+            titleInput.value = cleanedTitle || title;
+            if (typeof resolveMovieNames === 'function') resolveMovieNames();
+          }
+        } else {
+          window.YT_META_2 = meta;
+          const titleInput = document.getElementById('yttitle2');
+          if (titleInput && !titleInput.value.trim()) {
+            titleInput.value = cleanedTitle || title;
+          }
+        }
+
+        // Render preview card
+        previewEl.innerHTML = `
+          <div class="yt-preview-card">
+            <img src="${thumbnail}" alt="${title}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2268%22><rect fill=%22%231a1a2e%22 width=%22120%22 height=%2268%22/><text fill=%22%23666%22 x=%2260%22 y=%2238%22 text-anchor=%22middle%22 font-size=%2220%22>🎬</text></svg>'">
+            <div class="yt-preview-info">
+              <div class="yt-preview-title" title="${title}">${cleanedTitle || title}</div>
+              <div class="yt-preview-channel">📺 ${channelName}</div>
+              <div class="yt-preview-badges">
+                <span class="yt-preview-status">✅ Video detected</span>
+                <span class="yt-preview-id">${videoId}</span>
+              </div>
+            </div>
+            <button class="yt-preview-clear" onclick="clearYtPreview(${num})" title="Clear">✕</button>
+          </div>`;
+
+        if (typeof resolveMovieNames === 'function') resolveMovieNames();
+        toast(`🎬 "${cleanedTitle || title}" detected!`);
+
+      } catch (err) {
+        inputEl.style.opacity = '1';
+        previewEl.innerHTML = `<div class="yt-error-hint">⚠️ Error: ${err.message}</div>`;
+      }
+    }
+
+    function clearYtPreview(num) {
+      document.getElementById(`yt-preview-${num}`).innerHTML = '';
+      document.getElementById(`ytlink${num}`).value = '';
+      if (num === 1) { window.YT_META = {}; window.YT_SCENES = []; document.getElementById('yttitle1').value = ''; }
+      else { window.YT_META_2 = {}; document.getElementById('yttitle2').value = ''; }
+      if (typeof resolveMovieNames === 'function') resolveMovieNames();
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // TRANSCRIPT FETCHING
+    // ══════════════════════════════════════════════════════════════
+    async function _fetchTranscript(videoId) {
+      const apis = [
+        `https://api.kome.ai/api/tools/youtube-transcripts?video_id=${videoId}&format=true`,
+        `https://youtubetranscript.com/?server_vid2=${videoId}`
+      ];
+      for (const url of apis) {
+        try {
+          const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+          if (!res.ok) continue;
+          const ct = res.headers.get('content-type') || '';
+          let text = '';
+          if (ct.includes('json')) {
+            const json = await res.json();
+            // kome.ai format: array of { text, start, duration }
+            if (Array.isArray(json)) {
+              text = json.map(l => l.text || '').join(' ');
+            } else if (json.transcript) {
+              text = json.transcript;
+            } else if (typeof json === 'string') {
+              text = json;
+            }
+          } else {
+            text = await res.text();
+          }
+          // Strip timestamps like [00:12] or (00:12)
+          text = text.replace(/[\[\(]\d{1,2}:\d{2}(:\d{2})?[\]\)]/g, '').replace(/<[^>]+>/g, '').trim();
+          if (text && text.length > 100) return text;
+        } catch (_) { }
+      }
+      return null;
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // TRANSCRIPT ANALYSIS ENGINE
+    // ══════════════════════════════════════════════════════════════
+    window.YT_SCENES = [];
+    const ACTION_WORDS = new Set(['fight', 'run', 'kill', 'escape', 'reveal', 'shock', 'attack', 'win', 'lose', 'die', 'love', 'betray', 'chase', 'shoot', 'explode', 'crash', 'discover', 'arrest', 'save', 'betray', 'murder', 'steal', 'confess', 'transform', 'confront', 'sacrifice']);
+    const EMOTION_WORDS = new Set(['laugh', 'cry', 'scream', 'gasp', 'shout', 'whisper', 'tremble', 'sob', 'roar', 'shriek', 'weep', 'cheer', 'mourn', 'celebrate', 'rage']);
+
+    function analyzeTranscript(transcript, title) {
+      if (!transcript || transcript.length < 100) return [];
+      // Split into lines then chunk into ~30s blocks (~150 words)
+      const words = transcript.split(/\s+/);
+      const CHUNK_SIZE = 150;
+      const chunks = [];
+      for (let i = 0; i < words.length; i += CHUNK_SIZE) {
+        chunks.push(words.slice(i, i + CHUNK_SIZE).join(' '));
+      }
+      if (!chunks.length) return [];
+
+      // Collect all capitalized words (potential proper nouns)
+      const allCapWords = {};
+      chunks.forEach(c => {
+        (c.match(/\b[A-Z][a-z]{2,}\b/g) || []).forEach(w => {
+          allCapWords[w] = (allCapWords[w] || 0) + 1;
+        });
+      });
+      const properNouns = new Set(Object.entries(allCapWords).filter(([, v]) => v >= 2).map(([k]) => k));
+
+      const avgLen = words.length / chunks.length;
+      const totalChunks = chunks.length;
+
+      const scored = chunks.map((text, idx) => {
+        const lower = text.toLowerCase();
+        const chunkWords = text.split(/\s+/);
+        let score = 0;
+        // Keyword density
+        chunkWords.forEach(w => {
+          const wl = w.toLowerCase().replace(/[^a-z]/g, '');
+          if (ACTION_WORDS.has(wl)) score += 3;
+          if (EMOTION_WORDS.has(wl)) score += 2;
+        });
+        // Proper noun presence
+        chunkWords.forEach(w => { if (properNouns.has(w)) score += 2; });
+        // Repetition score: keywords that appear in 3+ other chunks
+        const chunkKeywords = chunkWords.filter(w => properNouns.has(w) || ACTION_WORDS.has(w.toLowerCase()));
+        chunkKeywords.forEach(kw => {
+          const occurrences = chunks.filter(c => c.includes(kw)).length;
+          if (occurrences >= 3) score += 1.5;
+        });
+        // Position bonus
+        const posRatio = idx / totalChunks;
+        if (posRatio <= 0.10 || posRatio >= 0.85) score *= 1.2;
+        // Density bonus
+        if (chunkWords.length > avgLen) score *= 1.1;
+
+        // Extract top keywords
+        const keywords = [...new Set([
+          ...chunkWords.filter(w => ACTION_WORDS.has(w.toLowerCase().replace(/[^a-z]/g, ''))),
+          ...chunkWords.filter(w => properNouns.has(w))
+        ])].slice(0, 5);
+
+        // Determine type
+        let type = 'dialogue';
+        const posRat = idx / totalChunks;
+        if (posRat <= 0.08) type = 'intro';
+        else if (posRat >= 0.88) type = 'climax';
+        else if (chunkWords.some(w => ACTION_WORDS.has(w.toLowerCase().replace(/[^a-z]/g, '')))) type = 'action';
+        else if (keywords.filter(k => properNouns.has(k)).length >= 3) type = 'recurring';
+
+        // Estimate timestamp
+        const secStart = Math.round((idx * CHUNK_SIZE / (words.length || 1)) * (words.length / 3));
+        const pad = n => String(Math.floor(n)).padStart(2, '0');
+        const startTime = `${pad(secStart / 60)}:${pad(secStart % 60)}`;
+        const endTime = `${pad((secStart + 38) / 60)}:${pad((secStart + 38) % 60)}`;
+
+        return { idx, score: Math.round(score), text: text.substring(0, 400), keywords, type, startTime, endTime };
+      });
+
+      const sorted = scored.sort((a, b) => b.score - a.score).slice(0, 16);
+      const ranked = sorted.map((s, rank) => ({ rank: rank + 1, ...s }));
+      window.YT_SCENES = ranked;
+
+      // Build analysis badge summary
+      const avgScore = Math.round(ranked.reduce((a, b) => a + b.score, 0) / (ranked.length || 1));
+      const topScene = ranked[0];
+      return { ranked, avgScore, topScene };
+    }
+
+    // Patch fetchYouTubeData to also fetch transcript + run analysis
+    const _origFetchYouTubeData = fetchYouTubeData;
+    async function fetchYouTubeData(inputEl, num) {
+      await _origFetchYouTubeData(inputEl, num);
+      // Only process Film 1 for now
+      if (num !== 1 || !window.YT_META || !window.YT_META.videoId) return;
+
+      const previewEl = document.getElementById(`yt-preview-${num}`);
+      const card = previewEl.querySelector('.yt-preview-card');
+      if (!card) return;
+
+      // Show transcript fetching inline
+      let transcriptBadge = document.createElement('div');
+      transcriptBadge.style.cssText = 'font-size:.65rem;color:var(--text3);margin-top:.4rem;display:flex;align-items:center;gap:.4rem';
+      transcriptBadge.innerHTML = '<div class="aip-spinner" style="width:10px;height:10px;border-width:1.5px"></div> Fetching transcript…';
+      card.appendChild(transcriptBadge);
+
+      const transcript = await _fetchTranscript(window.YT_META.videoId);
+      window.YT_META.transcript = transcript;
+
+      if (transcript) {
+        const analysis = analyzeTranscript(transcript);
+        const { ranked, avgScore, topScene } = analysis;
+        transcriptBadge.innerHTML = `🎯 ${ranked.length} key scenes identified · Avg score: ${avgScore} · Top scene at ${topScene?.startTime || '—'}`;
+        transcriptBadge.style.color = 'var(--green)';
+      } else {
+        transcriptBadge.innerHTML = `<span style="background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:2px 8px;font-size:.6rem">⚠️ Transcript unavailable — pipeline will use title + metadata only</span>`;
+      }
+    }
+  </script>
+
+  <!-- Hidden file input for attachment -->
+  <input type="file" id="file-attach-input" accept=".txt,.pdf,.md" style="display:none"
+    onchange="handleFileAttach(event)">
+</body>
+
+</html>
